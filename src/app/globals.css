@@ -1,12 +1,14 @@
 @import "tailwindcss";
 
+
 :root {
 }
 
 @theme inline {
-  --color-primary: #FD377E;
-  --color-primary-2: #E34981;
-  --color-secondary: #03B898;
+  --color-primary: #F97316;
+  --color-primary-2: #FB923C;
+  --color-positive: #03B898;
+  --color-negative: #F44336;
 
   --color-grey-4: #212529;
   --color-grey-3: #868E96;
@@ -19,6 +21,54 @@
   --text-title2: 22px;
   --text-title3: 16px;
   --text-title4: 12px;
-  --text-headline: 16px;
-  --text-body: 12px;
+  --text-body: 14px;
+}
+
+body {
+  font-family: var(--font-nunito), sans-serif;
+}
+
+input {
+  border: 1px solid var(--color-grey-2);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  background-color: var(--color-grey-1);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.2);
+}
+
+input::placeholder {
+  color: var(--color-grey-3);
+}
+
+select {
+  border: 1px solid var(--color-grey-2);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  background-color: var(--color-grey-1);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.2);
+}
+
+
+select option:first-child {
+  color: var(--color-grey-3);
+}
+
+select option {
+  background-color: var(--color-grey-1);
+  color: var(--color-grey-4);
 }
