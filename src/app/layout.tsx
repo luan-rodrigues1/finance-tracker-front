@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Nunito  } from "next/font/google";
 import "./globals.css";
 import { TransactionProvider } from "./Context/TransactionContext";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const nunito = Nunito({
   variable: "--font-nunito",
@@ -27,6 +29,17 @@ export default function RootLayout({
       >
         <TransactionProvider>
           {children}
+          <ToastContainer 
+            position="top-right" 
+            autoClose={3000} 
+            hideProgressBar={false} 
+            newestOnTop={false} 
+            closeOnClick 
+            rtl={false} 
+            pauseOnFocusLoss 
+            draggable 
+            pauseOnHover 
+          />
         </TransactionProvider>
       </body>
     </html>

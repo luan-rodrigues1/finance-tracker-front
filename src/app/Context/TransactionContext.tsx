@@ -6,6 +6,7 @@ import GetAllTransactions from "../services/GetAllTransactions";
 import CreateTransaction from "../services/CreateTransaction";
 import DeleteTransaction from "../services/DeleteTransaction";
 import UpdateTransaction from "../services/UpdateTransaction";
+import { toast } from "react-toastify";
 
 type TransactionContextType = {
   transactions: TransactionType[];
@@ -41,8 +42,10 @@ export const TransactionProvider = ({ children }: TransactionProviderProps) => {
             if (updatedTransactions) {
                 setTransactions(updatedTransactions);
             }
+            toast.success("Transação criada com sucesso!");
         } catch (err) {
             console.error("Erro ao criar transação:", err);
+            toast.error("Erro ao criar transação.");
         }
     };
 
@@ -54,9 +57,10 @@ export const TransactionProvider = ({ children }: TransactionProviderProps) => {
             if (updatedTransactions) {
                 setTransactions(updatedTransactions);
             }
-        
+            toast.success("Transação deletada com sucesso!");
         } catch (err) {
             console.error("Erro ao criar transação:", err);
+             toast.error("Erro ao deletar transação.");
         }
     };
 
@@ -67,8 +71,10 @@ export const TransactionProvider = ({ children }: TransactionProviderProps) => {
             if (updatedTransactions) {
                 setTransactions(updatedTransactions);
             }
+            toast.success("Transação atualizada com sucesso!");
         } catch (err) {
             console.error("Erro ao criar transação:", err);
+            toast.error("Erro ao atualizar transação.");
         }
     };
 
