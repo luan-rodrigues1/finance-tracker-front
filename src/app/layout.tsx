@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Nunito  } from "next/font/google";
 import "./globals.css";
+import { TransactionProvider } from "./Context/TransactionContext";
 
 const nunito = Nunito({
   variable: "--font-nunito",
@@ -24,7 +25,9 @@ export default function RootLayout({
       <body
         className={`${nunito.variable} antialiased`}
       >
-        {children}
+        <TransactionProvider>
+          {children}
+        </TransactionProvider>
       </body>
     </html>
   );

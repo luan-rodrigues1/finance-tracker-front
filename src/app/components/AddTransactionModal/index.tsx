@@ -6,6 +6,7 @@ import SelectField from "../Foms/SelectField";
 import PrimaryButton from "../PrimaryButton";
 import DateField from "../Foms/DateField";
 import { transactionSchema } from "../../schema/TransactionSchema";
+import { useTransactions } from "@/app/Context/TransactionContext";
 
 type TransactionFormData = {
   description: string;
@@ -19,6 +20,7 @@ type AddTransactionModalProps = {
 };
 
 const AddTransactionModal = ({ handleCreateModal }: AddTransactionModalProps) => {
+  const { createTransaction } = useTransactions();
   const {
     register,
     handleSubmit,
@@ -27,8 +29,15 @@ const AddTransactionModal = ({ handleCreateModal }: AddTransactionModalProps) =>
     resolver: yupResolver(transactionSchema),
   });
 
-  const onSubmit = (data: TransactionFormData) => {
+  const onSubmit = async (data: TransactionFormData) => {
     console.log("Form data:", data);
+    const transactionToCreate = {
+      description: data.description,
+      amount: data.amount,
+      isIncome: data.type === "Receita",
+      date: data.date,
+    };
+    await createTransaction(transactionToCreate);
     handleCreateModal();
   };
 

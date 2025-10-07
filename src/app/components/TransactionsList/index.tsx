@@ -21,7 +21,7 @@ const TransactionsList = ({transactions, handleCreateModal}: TransactionsListPro
                 <ul className="flex flex-col gap-4">
                 {transactions.map((transaction) => (
                     <li key={transaction.id}>
-                    <TransactionCard {...transaction} />
+                        <TransactionCard {...transaction} />
                     </li>
                 ))}
                 </ul>

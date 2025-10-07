@@ -7,3 +7,10 @@ export type TransactionType = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+export type CreateTransactionType = {
+  description: string;
+  amount: number;
+  isIncome: boolean;
+  date: Date;
+}
