@@ -14,3 +14,11 @@ export type CreateTransactionType = {
   isIncome: boolean;
   date: Date;
 }
+
+
+export type UpdateTransactionType = {
+  description?: string;
+  amount?: number;
+  isIncome?: boolean;
+  date?: Date;
+}

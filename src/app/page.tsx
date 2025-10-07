@@ -4,6 +4,7 @@ import AddTransactionModal from "./components/AddTransactionModal";
 import OverviewCard from "./components/OverviewCard";
 import TransactionsList from "./components/TransactionsList";
 import { useTransactions } from "./Context/TransactionContext";
+import UpdateTransactionModal from "./components/UpdateTransactionModal";
 
 export default function Home() {
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
@@ -24,9 +25,12 @@ export default function Home() {
     <main className="relative">
       <div className="flex flex-col gap-4 w-[90%] mx-auto max-w-[500px] mt-4">
         <OverviewCard/>
-        <TransactionsList transactions={transactions} handleCreateModal={() => handleModal("create")} />
+        <TransactionsList transactions={transactions} handleModal={handleModal}  />
         {openAddModal && (
           <AddTransactionModal handleCreateModal={() => handleModal("create")} />
+        )}
+        {openUpdateModal && (
+          <UpdateTransactionModal handleUpdateModal={() => handleModal("update")} />
         )}
       </div>
     </main>

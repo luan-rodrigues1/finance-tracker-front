@@ -1,16 +1,20 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { CreateTransactionType, TransactionType } from "../types/TransactionType";
+import { createContext, useContext, useState, useEffect, ReactNode, Dispatch, SetStateAction } from "react";
+import { CreateTransactionType, UpdateTransactionType, TransactionType } from "../types/TransactionType";
 import GetAllTransactions from "../services/GetAllTransactions";
 import CreateTransaction from "../services/CreateTransaction";
 import DeleteTransaction from "../services/DeleteTransaction";
+import UpdateTransaction from "../services/UpdateTransaction";
 
 type TransactionContextType = {
   transactions: TransactionType[];
   fetchTransactions: () => Promise<void>;
   createTransaction: (transaction: CreateTransactionType) => Promise<void>
   deleteTransaction: (id: number) => Promise<void>
+  selectUpdateData: Omit<TransactionType,  "createdAt" | "updatedAt"> | undefined
+  setSelectUpdateData: Dispatch<SetStateAction<Omit<TransactionType, "createdAt" | "updatedAt"> | undefined>>
+  updateTransaction: (id: number, transaction: UpdateTransactionType) => Promise<void>
 };
 
 const TransactionContext = createContext<TransactionContextType | undefined>(undefined);
@@ -20,7 +24,8 @@ type TransactionProviderProps = {
 };
 
 export const TransactionProvider = ({ children }: TransactionProviderProps) => {
-  const [transactions, setTransactions] = useState<TransactionType[]>([]);
+    const [transactions, setTransactions] = useState<TransactionType[]>([]);
+    const [selectUpdateData, setSelectUpdateData] = useState<Omit<TransactionType, "createdAt" | "updatedAt">>()
 
     const fetchTransactions = async () => {
         const data = await GetAllTransactions();
@@ -55,6 +60,18 @@ export const TransactionProvider = ({ children }: TransactionProviderProps) => {
         }
     };
 
+    const updateTransaction = async (id: number, transaction: UpdateTransactionType) => {
+        try {
+            await UpdateTransaction(id, transaction);
+            const updatedTransactions = await GetAllTransactions();
+            if (updatedTransactions) {
+                setTransactions(updatedTransactions);
+            }
+        } catch (err) {
+            console.error("Erro ao criar transação:", err);
+        }
+    };
+
     useEffect(() => {
         fetchTransactions();
     }, []);
@@ -65,7 +82,10 @@ export const TransactionProvider = ({ children }: TransactionProviderProps) => {
         transactions,
         fetchTransactions,
         createTransaction,
-        deleteTransaction
+        deleteTransaction,
+        selectUpdateData,
+        setSelectUpdateData,
+        updateTransaction
       }}
     >
       {children}

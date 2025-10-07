@@ -30,7 +30,6 @@ const AddTransactionModal = ({ handleCreateModal }: AddTransactionModalProps) =>
   });
 
   const onSubmit = async (data: TransactionFormData) => {
-    console.log("Form data:", data);
     const transactionToCreate = {
       description: data.description,
       amount: data.amount,

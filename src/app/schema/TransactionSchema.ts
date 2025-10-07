@@ -19,3 +19,21 @@ export const transactionSchema = yup.object().shape({
   })
   .required("Data é obrigatória*")
 });
+
+
+export const updateTransactionSchema = yup.object().shape({
+  description: yup.string().max(100, "Descrição não pode exceder 100 caracteres*"),
+  amount: yup
+    .number()
+    .typeError("Valor deve ser numérico")
+    .transform((val, originalValue) =>
+      originalValue === "" ? NaN : Number(originalValue.replace(",", "."))
+    )
+    .positive("Valor deve ser positivo")
+    .notRequired(),
+  type: yup.string().oneOf(["Receita", "Despesa"]).notRequired(),
+  date: yup.date().transform((value, originalValue) => {
+      return originalValue === "" ? undefined : value;
+    })
+    .notRequired(),
+});
