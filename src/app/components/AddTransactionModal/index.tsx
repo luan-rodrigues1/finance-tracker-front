@@ -20,7 +20,7 @@ type AddTransactionModalProps = {
 };
 
 const AddTransactionModal = ({ handleCreateModal }: AddTransactionModalProps) => {
-  const { createTransaction } = useTransactions();
+  const { createTransaction, loadingCreate } = useTransactions();
   const {
     register,
     handleSubmit,
@@ -96,6 +96,7 @@ const AddTransactionModal = ({ handleCreateModal }: AddTransactionModalProps) =>
             height="40"
             textSize="body"
             type="submit"
+            isLoading={loadingCreate}
           />
         </form>
       </div>

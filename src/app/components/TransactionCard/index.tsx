@@ -3,11 +3,11 @@ import SettingsButton from "../SettingsButton"
 import { useTransactions } from "@/app/Context/TransactionContext";
 
 type TransactionCardProps = TransactionType & {
-  handleModal: () => void;
+  handleModal: (type: "create" | "update" | "delete") => void
 };
 
 const TransactionCard = (transaction: TransactionCardProps) => {
-    const { deleteTransaction, setSelectUpdateData } = useTransactions();
+    const { setSelectUpdateData, setSelectDeleteId } = useTransactions();
 
     return (
         <div 
@@ -28,11 +28,11 @@ const TransactionCard = (transaction: TransactionCardProps) => {
                         })}
                     </p>
                     <div className="flex gap-2">
-                        <SettingsButton title="Excluir" onClick={() => deleteTransaction(transaction.id)} />
-                        <SettingsButton 
+                        <SettingsButton title="Excluir" onClick={() => (setSelectDeleteId(transaction.id), transaction.handleModal("delete"))} />
+                        <SettingsButton
                             title="Editar" 
                             onClick={
-                                () => (transaction.handleModal(), 
+                                () => (transaction.handleModal("update"), 
                                 setSelectUpdateData({
                                     id: transaction.id, 
                                     description: transaction.description, 

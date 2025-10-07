@@ -15,7 +15,13 @@ type TransactionContextType = {
   deleteTransaction: (id: number) => Promise<void>
   selectUpdateData: Omit<TransactionType,  "createdAt" | "updatedAt"> | undefined
   setSelectUpdateData: Dispatch<SetStateAction<Omit<TransactionType, "createdAt" | "updatedAt"> | undefined>>
+  selectDeleteId: number
+  setSelectDeleteId: Dispatch<SetStateAction<number>>
   updateTransaction: (id: number, transaction: UpdateTransactionType) => Promise<void>
+  loadingTransaction: boolean
+  loadingCreate: boolean
+  loadingUpdate: boolean
+  loadingDelete: boolean
 };
 
 const TransactionContext = createContext<TransactionContextType | undefined>(undefined);
@@ -27,6 +33,21 @@ type TransactionProviderProps = {
 export const TransactionProvider = ({ children }: TransactionProviderProps) => {
     const [transactions, setTransactions] = useState<TransactionType[]>([]);
     const [selectUpdateData, setSelectUpdateData] = useState<Omit<TransactionType, "createdAt" | "updatedAt">>()
+    const [selectDeleteId, setSelectDeleteId] = useState<number>(0)
+    const [loadingTransaction, setLoadingTransaction] = useState<boolean>(true)
+    const [loadingCreate, setLoadingCreate] = useState<boolean>(false)
+    const [loadingUpdate, setLoadingUpdate] = useState<boolean>(false)
+    const [loadingDelete, setLoadingDelete] = useState<boolean>(false)
+
+    const listTransactions = async () => {
+        setLoadingTransaction(true)
+        const data = await GetAllTransactions();
+          if (data) {
+            setTransactions(data);
+        }
+
+        setLoadingTransaction(false)
+    }
 
     const fetchTransactions = async () => {
         const data = await GetAllTransactions();
@@ -37,49 +58,58 @@ export const TransactionProvider = ({ children }: TransactionProviderProps) => {
 
     const createTransaction = async (transaction: CreateTransactionType) => {
         try {
+            setLoadingCreate(true)
             await CreateTransaction(transaction);
             const updatedTransactions = await GetAllTransactions();
             if (updatedTransactions) {
                 setTransactions(updatedTransactions);
             }
             toast.success("Transação criada com sucesso!");
+            setLoadingCreate(false)
         } catch (err) {
             console.error("Erro ao criar transação:", err);
             toast.error("Erro ao criar transação.");
+            setLoadingCreate(false)
         }
     };
 
     const deleteTransaction = async (id: number) => {
         try {
+            setLoadingDelete(true)
             await DeleteTransaction(id);
-
             const updatedTransactions = await GetAllTransactions();
+
             if (updatedTransactions) {
                 setTransactions(updatedTransactions);
             }
             toast.success("Transação deletada com sucesso!");
+            setLoadingDelete(false)
         } catch (err) {
             console.error("Erro ao criar transação:", err);
-             toast.error("Erro ao deletar transação.");
+            toast.error("Erro ao deletar transação.");
+            setLoadingDelete(false)
         }
     };
 
     const updateTransaction = async (id: number, transaction: UpdateTransactionType) => {
         try {
+            setLoadingUpdate(true)
             await UpdateTransaction(id, transaction);
             const updatedTransactions = await GetAllTransactions();
             if (updatedTransactions) {
                 setTransactions(updatedTransactions);
             }
             toast.success("Transação atualizada com sucesso!");
+            setLoadingUpdate(false)
         } catch (err) {
             console.error("Erro ao criar transação:", err);
             toast.error("Erro ao atualizar transação.");
+            setLoadingUpdate(false)
         }
     };
 
     useEffect(() => {
-        fetchTransactions();
+        listTransactions();
     }, []);
 
   return (
@@ -91,7 +121,13 @@ export const TransactionProvider = ({ children }: TransactionProviderProps) => {
         deleteTransaction,
         selectUpdateData,
         setSelectUpdateData,
-        updateTransaction
+        updateTransaction,
+        loadingTransaction,
+        loadingCreate,
+        loadingUpdate,
+        loadingDelete,
+        selectDeleteId,
+        setSelectDeleteId
       }}
     >
       {children}

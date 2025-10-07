@@ -23,7 +23,7 @@ type UpdateTransactionModalProps = {
   handleUpdateModal: () => void;
 };
 const UpdateTransactionModal = ({ handleUpdateModal }: UpdateTransactionModalProps)  => {
-    const { selectUpdateData, updateTransaction } = useTransactions();
+    const { selectUpdateData, updateTransaction, loadingUpdate } = useTransactions();
     const [updateId, setUpdateId] = useState<number>(0)
     const {
       register,
@@ -127,6 +127,7 @@ const UpdateTransactionModal = ({ handleUpdateModal }: UpdateTransactionModalPro
             height="40"
             textSize="body"
             type="submit"
+            isLoading={loadingUpdate}
           />
         </form>
       </div>
