@@ -1,4 +1,20 @@
-# Finance Tracker
+# Tecnologias
+- React
+- Next.js
+- Tailwind CSS
+- TypeScript 
+- Fetch API
+- Context API
+
+## Configuração do projeto
+
+### Clone o repositório
+
+```bash
+git clone https://github.com/SEU_USUARIO/finance-tracker-front.git
+cd finance-tracker-front
+```
+---
 
 ### Instalar dependências
 
@@ -10,6 +26,8 @@ yarn
 pnpm install
 ```
 
+---
+
 Rodar servidor de desenvolvimento
 ```
 npm run dev
@@ -17,13 +35,13 @@ npm run dev
 yarn dev
 # ou
 pnpm dev
-# ou
-bun dev
 ```
 
 Por padrão, a aplicação roda em http://localhost:3000
 .
 Caso a porta 3000 já esteja ocupada, o Next.js tentará automaticamente a próxima porta disponível (3001, 3002, etc.).
+
+---
 
 ### Configuração da API
 
